@@ -1,6 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import {expect} from 'chai'
 
 import setupBuilder from '../helpers/setupBuilder';
 
@@ -9,10 +7,10 @@ class Gherkin {
     #debug = false;
     #attributes = {};
     #environment;
-    #test = [];
+    #usages = [];
     constructor(Component, usages = []) {
         this.#Component = Component
-        this.#test = [...usages]
+        this.#usages = [...usages]
     }
     #setAttributes(attributes, callback = () => null) {
         this.#attributes = Object.assign({
@@ -59,15 +57,14 @@ class Gherkin {
         );
     }
     use(usage = [key, value]) {
-        this.#test[key] = value;
+        this.#usages[key] = value;
     }
     test() {
         const scenario = this;
-        const tests = this.#test;
-        const entries = Object.fromEntries(tests.map(function([key, value]) {
+        const usages = this.#usages;
+        return Object.fromEntries(usages.map(function([key, value]) {
             return [key, value.bind(scenario)]
         }));
-        return entries;
     }
 }
 
