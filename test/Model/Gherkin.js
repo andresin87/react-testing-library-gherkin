@@ -28,6 +28,7 @@ class Gherkin {
     }
     debug() {
         this.#debug = true;
+        return this;
     }
     given(...args) {
         this.#setDefaultValues();
